@@ -1,0 +1,151 @@
+#include <stdio.h>
+#include <string.h> // Necessário para a função strcpy
+
+
+int main() {
+   
+    // variaveis para a primeira carta
+    char nome_pais1[50];
+    int populacao1;
+    float area1;
+    float pib1;
+    int pontos_turisticos1;
+    float den_pop1;
+
+    // variaveis para a segunda carta
+    char nome_pais2[50];
+    int populacao2;
+    float area2;
+    float pib2;
+    int pontos_turisticos2;
+    float den_pop2;
+
+    // Entrada de dados da primeira carta
+    printf("--- CADASTRO DA CARTA 1 ---\n");
+    printf("Nome do pais: ");
+    scanf(" %[^\n]", nome_pais1);
+    printf("Populacao: ");
+    scanf("%d", &populacao1);
+    printf("Area (km²): ");
+    scanf("%f", &area1);
+    printf("PIB (bilhoes de dolares): ");
+    scanf("%f", &pib1);
+    printf("Numero de pontos turisticos: ");
+    scanf("%d", &pontos_turisticos1);
+
+    // Entrada de dados da segunda carta
+    printf("\n--- CADASTRO DA CARTA 2 ---\n");
+    printf("Nome do pais: ");
+    scanf(" %[^\n]", nome_pais2);
+    printf("Populacao: ");
+    scanf("%d", &populacao2);
+    printf("Area (km²): ");
+    scanf("%f", &area2);
+    printf("PIB (bilhoes de dolares): ");
+    scanf("%f", &pib2);
+    printf("Numero de pontos turisticos: ");
+    scanf("%d", &pontos_turisticos2);
+
+    // Cálculo da densidade populacional com verificação para evitar divisão por zero
+    den_pop1 = (area1 > 0) ? (float)populacao1 / area1 : 0;
+    den_pop2 = (area2 > 0) ? (float)populacao2 / area2 : 0;
+    
+    printf("\n--- CARTAS PRONTAS PARA O DUELO ---\n\n");
+
+    // escolha de atributos ---
+
+    int escolha1, escolha2;
+    
+    // escolha do primeiro atributo com validacao de entrada
+    do {
+        printf("--- ESCOLHA O PRIMEIRO ATRIBUTO ---\n");
+        printf("1. Populacao\n");
+        printf("2. Area\n");
+        printf("3. PIB\n");
+        printf("4. Numero de Pontos Turisticos\n");
+        printf("5. Densidade Demografica\n");
+        printf("Sua escolha (1-5): ");
+        scanf("%d", &escolha1);
+        if (escolha1 < 1 || escolha1 > 5) {
+            printf("Opcao invalida! Tente novamente.\n\n");
+        }
+    } while (escolha1 < 1 || escolha1 > 5);
+
+    // segundo atributo com menu dinamico
+    do {
+        printf("\n--- ESCOLHA O SEGUNDO ATRIBUTO (DIFERENTE DO PRIMEIRO) ---\n");
+        if (escolha1 != 1) printf("1. Populacao\n");
+        if (escolha1 != 2) printf("2. Area\n");
+        if (escolha1 != 3) printf("3. PIB\n");
+        if (escolha1 != 4) printf("4. Numero de Pontos Turisticos\n");
+        if (escolha1 != 5) printf("5. Densidade Demografica\n");
+        printf("Sua escolha: ");
+        scanf("%d", &escolha2);
+        if (escolha2 < 1 || escolha2 > 5 || escolha2 == escolha1) {
+            printf("Opcao invalida ou igual a primeira! Tente novamente.\n");
+        }
+    } while (escolha2 < 1 || escolha2 > 5 || escolha2 == escolha1);
+
+    // cauculos e comparacoes
+
+    // variaveis para armazenar os valores e nomes dos atributos escolhidos
+    float valor_attr1_c1, valor_attr1_c2, valor_attr2_c1, valor_attr2_c2;
+    char nome_attr1[50], nome_attr2[50];
+
+    //switch para obter os dados do PRIMEIRO atributo escolhido
+    switch (escolha1) {
+        case 1: strcpy(nome_attr1, "Populacao"); valor_attr1_c1 = populacao1; valor_attr1_c2 = populacao2; break;
+        case 2: strcpy(nome_attr1, "Area"); valor_attr1_c1 = area1; valor_attr1_c2 = area2; break;
+        case 3: strcpy(nome_attr1, "PIB"); valor_attr1_c1 = pib1; valor_attr1_c2 = pib2; break;
+        case 4: strcpy(nome_attr1, "Pontos Turisticos"); valor_attr1_c1 = pontos_turisticos1; valor_attr1_c2 = pontos_turisticos2; break;
+        case 5: strcpy(nome_attr1, "Densidade Demografica"); valor_attr1_c1 = den_pop1; valor_attr1_c2 = den_pop2; break;
+    }
+
+    // switch para obter os dados do SEGUNDO atributo escolhido
+    switch (escolha2) {
+        case 1: strcpy(nome_attr2, "Populacao"); valor_attr2_c1 = populacao1; valor_attr2_c2 = populacao2; break;
+        case 2: strcpy(nome_attr2, "Area"); valor_attr2_c1 = area1; valor_attr2_c2 = area2; break;
+        case 3: strcpy(nome_attr2, "PIB"); valor_attr2_c1 = pib1; valor_attr2_c2 = pib2; break;
+        case 4: strcpy(nome_attr2, "Pontos Turisticos"); valor_attr2_c1 = pontos_turisticos1; valor_attr2_c2 = pontos_turisticos2; break;
+        case 5: strcpy(nome_attr2, "Densidade Demografica"); valor_attr2_c1 = den_pop1; valor_attr2_c2 = den_pop2; break;
+    }
+
+    //soma dos valores dos atributos para cada carta
+    //regra "menor vence" da densidade não se aplica aqui, pois o desafio pede a SOMA dos valores brutos.
+    float soma_carta1 = valor_attr1_c1 + valor_attr2_c1;
+    float soma_carta2 = valor_attr1_c2 + valor_attr2_c2;
+
+    // exibicao de resultados 
+
+    printf("\n\n========================================\n");
+    printf("RESULTADO FINAL DA RODADA\n");
+    printf("========================================\n");
+    printf("Atributos escolhidos: %s e %s\n\n", nome_attr1, nome_attr2);
+
+    // Exibindo breakdown da Carta 1
+    printf("--- %s ---\n", nome_pais1);
+    printf("  - %s: %.2f\n", nome_attr1, valor_attr1_c1);
+    printf("  - %s: %.2f\n", nome_attr2, valor_attr2_c1);
+    printf("  - SOMA TOTAL: %.2f\n\n", soma_carta1);
+
+    // exibindo breakdown da Carta 2
+    printf("--- %s ---\n", nome_pais2);
+    printf("  - %s: %.2f\n", nome_attr1, valor_attr1_c2);
+    printf("  - %s: %.2f\n", nome_attr2, valor_attr2_c2);
+    printf("  - SOMA TOTAL: %.2f\n\n", soma_carta2);
+
+    printf("----------------------------------------\n");
+
+    // vencedor com base na soma
+    if (soma_carta1 > soma_carta2) {
+        // Uso do operador ternário para exibir o nome do vencedor
+        printf("VENCEDOR DA RODADA: %s!\n", (soma_carta1 > soma_carta2) ? nome_pais1 : nome_pais2);
+    } else if (soma_carta2 > soma_carta1) {
+        printf("VENCEDOR DA RODADA: %s!\n", (soma_carta1 > soma_carta2) ? nome_pais1 : nome_pais2);
+    } else {
+        printf("RESULTADO DA RODADA: EMPATE!\n");
+    }
+    printf("----------------------------------------\n");
+
+    return 0;
+}
